@@ -1,0 +1,267 @@
+#include<iostream>
+#include<cstdlib>
+#include<string>
+using std::cout;
+using std::endl;
+using std::string;
+using std::ostream;
+
+
+void Assert(bool val, string s){
+
+	 if(!val){
+
+		 cout<<"Assertion Failed"<<s<<endl;
+ 
+		exit(-1);
+
+	 }
+
+}
+
+
+//template <typename E> class List { // List ADT
+ 
+//private:
+
+//void operator =(const List&) {} // Protect assignment
+
+//List(const List&) {} // Protect copy constructor
+
+//
+
+//
+
+//public:
+
+//List() {} // Default constructor
+ 
+//virtual ˜List() {} // Base destructor
+
+//// Reinitialize the list. The client is responsible for
+
+//// reclaiming the storage used by the list Eents.
+
+//virtual void clear() = 0;
+
+ //// Insert an Eent at the front of the right partition.
+
+//// Return true if the insert was successful, false otherwise.
+
+//virtual void insert(const E& item) = 0;
+
+//// Append an Eent at the end of the right partition.
+ 
+//// Return true if the append was successful, false otherwise.
+
+//virtual E remove() = 0;
+
+//// Place fence at list start, making left partition empty.
+
+//virtual void moveToStart() = 0;
+ 
+//// Place fence at list end, making right partition empty.
+
+//virtual void moveToEnd() = 0;
+
+//// Move fence one step left; no change if at beginning.
+
+//virtual void prev() = 0;
+
+ //// Move fence one step right; no change if already at end.
+
+//virtual void next() = 0;
+
+//// Return length of left or right partition, respectively.
+
+//virtual int length() const = 0;
+
+ //virtual int currPos() const = 0;
+
+//// Set fence so that left partition has "pos" Eents.
+
+//virtual void moveToPos(int pos) = 0;
+
+//// Return the first Eent of the right partition.
+ 
+//virtual const E& getValue() const = 0;
+
+//}
+
+
+template <typename E> class List{
+
+private:
+
+int maxSize; 
+
+int listSize; 
+ 
+int curr; 
+
+E* listArray; 
+
+const static int defaultSize = 100;
+
+
+
+public:
+
+List(int size = defaultSize) { 
+ 
+maxSize = size;
+
+listSize = curr = 0;
+
+listArray = new E [maxSize];
+
+}
+
+
+int ˜List() { delete [] listArray; } 
+
+
+
+void clear() { 
+ 
+delete [] listArray; 
+
+listSize = curr = 0; 
+
+listArray = new E[maxSize]; 
+
+}
+
+ 
+void insert(const E& it) {
+
+Assert(listSize < maxSize, "List capacity exceeded"); 
+
+for(int i=listSize; i>curr; i--) 
+
+listArray[i] = listArray[i-1]; 
+ 
+listArray[curr] = it;
+
+listSize++; 
+
+}
+
+
+
+
+E remove() {
+ 
+Assert((curr >= 0) && (curr < listSize), "No Element");
+
+E it = listArray[curr]; 
+
+for(int i=curr; i<listSize-1; i++) 
+
+listArray[i] = listArray[i+1];
+ 
+listSize--; 
+
+return it;
+
+}
+
+
+
+
+void moveToStart() { curr = 0; } 
+
+void moveToEnd() { curr = listSize; } 
+
+void prev() { if (curr != 0) curr--; } 
+ 
+void next() { if (curr < listSize) curr++; } 
+
+int length() const { return listSize; }
+
+
+
+
+int currPos() const { return curr; }
+ 
+
+
+
+void movetoPos(int pos) { 
+
+Assert ((pos>=0)&&(pos<=listSize), "Pos out of range");
+
+curr = pos;
+
+}
+
+ 
+
+
+const E& getValue() const { 
+
+Assert ((curr >= 0)&&(curr<=listSize),"No current Element");
+
+return listArray[curr];
+
+}
+
+
+ 
+
+};
+
+
+
+
+
+
+
+int main(int size, char** argv){
+
+	 cout<<" Luis Herrera "<< endl;
+ 
+	
+	List <double> Mylist;
+
+
+	 Mylist.insert(0.4);
+	 Mylist.insert(0.3);
+	 Mylist.insert(0.2);
+	 Mylist.insert(0.1);
+	  
+	 double x;
+ 
+	Mylist.moveToStart();
+
+
+	 x = Mylist.getValue();
+
+	 
+	 cout<< x << endl;
+	
+
+	 Mylist.next();
+
+	 x = Mylist.getValue();
+	  
+	 cout<< x << endl;
+
+
+	 Mylist.next();
+
+	 x = Mylist.getValue();
+
+	 cout<< x << endl;
+ 
+	 Mylist.next();
+
+	 x = Mylist.getValue();
+
+	 cout<< x << endl;
+
+	system("pause");
+
+	 return 0;
+
+}
